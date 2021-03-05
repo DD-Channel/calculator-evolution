@@ -222,7 +222,7 @@ var cnPrefix = {
     "Base Challenge (": "基础挑战 (",
     "Money Challenge (": "金钱挑战 (",
     "Goal: ": "目标: ",
-    "Process ": "进度 ",
+    "Process ": "进程 ",
     "": "",
     "": "",
     "": "",
