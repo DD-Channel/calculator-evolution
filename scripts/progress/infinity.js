@@ -2,10 +2,10 @@
     ipUpgradeName = ["CPU", "RP", "Qubit", "SP", "IP"];
     ipPassiveDesc = [
         "Start Infinity with ${dNotation(game.t5resets, 4, 0)} SP (based on Infinity stat)",
-        "Active programs automatically<br>Durability won't decreases",
+        "Activate programs automatically<br>Durability won't decrease",
         "Keep Challenge Records",
         "Retain Singularity VII",
-        "Keep Challenge Completeions",
+        "Keep Challenge Completions",
         "250 Extra Process",
         "Keep Grid placement"
     ];
@@ -49,6 +49,10 @@ function renderInfinity() {
         ele.innerHTML = (game.ipPassiveBought == idx+ipPassiveDisplay ? "<span style=\"opacity: 0.2\">" : "") + (typeof tempStr != "undefined" && game.ipPassiveBought >= idx+ipPassiveDisplay ? new Function("return `" + tempStr + "`")() : "") + (game.ipPassiveBought == idx+ipPassiveDisplay ? "</span>" : "");
     });
     document.getElementById("buyIpPassive").classList[game.infinityPoint.gte(calcIpPassiveCost())?"add":"remove"]('activated');
+}
+function renderInfinityInfo() {
+    $("#inifnityInfo").style.display = game.t5toggle ? "block" : "none";
+    if (game.t5toggle) $("#inifnityInfo").innerHTML = `${timeNotation((new Date().getTime()-game.t5resetTime)/1000)} / ${dNotation(calcIpGain(new Date().getTime() - game.t5resetTime), 4, 0)} IP`;  
 }
 
 function buyIpUpgrade(idx) {
@@ -96,7 +100,7 @@ function calcIpUpgradeEffect(idx, baseRes=game.infinityUpgradeSpent[idx]) {
             tempMult = D.max(1, D(3).pow(baseRes.mul(6).pow(0.6)));
             break;
         case 3:
-            tempMult = baseRes.pow(1.1).div(5).add(1);
+            tempMult = baseRes.pow(1.1).div(5).add(1).pow(1/2).add(baseRes.div(10));
             break;
         case 4:
             tempMult = baseRes.div(10).pow(0.5).add(1);

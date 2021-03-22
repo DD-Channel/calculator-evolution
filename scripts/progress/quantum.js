@@ -16,7 +16,7 @@
       "RP gain x10",
       "Boost RP gain based on Qubit and RP (x${dNotation(D(1.2).pow(game.qubit).pow(D.min(game.researchPoint.add(1).log(10).div(25), 1)), 4, 2)})",
       "Multiply research upgrade effect by x10 (x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase(), 4, 0) : dNotation(calcPerResearchSpeedBase().div(10), 4, 0)} -> x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase().mul(10), 4, 0) : dNotation(calcPerResearchSpeedBase(), 4, 0)})",
-      "Boost Research speed based on Time spent on this quantum and RP (x${dNotation(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)).pow(D.min(10, D.max(1, game.researchPoint.log(10).div(20)))), 4, 2)})",
+      "Boost Research speed based on Time spent on this quantum and RP (x${dNotation(D(2).pow(D.max(1, game.tLast-game.quantumTime).pow(0.2)).pow(D.min(10, D.max(1, game.researchPoint.add(1).log(10).div(20)))), 4, 2)})",
       "Remove money requirement from research",
       "Research levels boosts RP gain (x${dNotation(game.researchLevel.reduce((a, b) => a.mul(b**2+1), D(1)).pow(3), 4, 1)})<br>And sqrt Quantum Lab Money req",
       "Multiply research upgrade effect by x4 (x${!game.quantumUpgradeBought.includes('27') ? dNotation(calcPerResearchSpeedBase(), 4, 0) : dNotation(calcPerResearchSpeedBase().div(4), 4, 0)} -> x${!game.quantumUpgradeBought.includes('27') ? dNotation(calcPerResearchSpeedBase().mul(4), 4, 0) : dNotation(calcPerResearchSpeedBase(), 4, 0)})"
@@ -66,7 +66,7 @@
       "Multiply Grid Machine Power Based on QL (x${dNotation(D(1.01).pow(game.quantumLab).mul(game.quantumLab.pow(2)).add(1), 4, 2)})",
       "Multiply SP gain Based on Time spent on this Singularity (x${dNotation(D(10).mul((Math.max(0, new Date().getTime() - game.singularityTime)/1000)**0.6), 4, 2)})",
       "Multiply SP gain based on QL (x${dNotation(D(2).pow(D(game.quantumLab).pow(1/3)), 3, 1)})",
-      "Multiply SP gain based on Challenge Recordes (x${dNotation(game.challengeRecord.reduce((a, b) => a.mul(b.add(1)), D(1)).pow(1/4), 4, 1)})",
+      "Multiply SP gain based on Challenge records (x${dNotation(game.challengeRecord.reduce((a, b) => a.mul(b.add(1)), D(1)).pow(1/4), 4, 1)})",
       "Boost SP's grid machine Power boost based on SP (^${dNotation(D(1).add(game.singularityPower.add(1).log(10).pow(0.8)), 4, 3)})",
       "Boost SP gain based on Processes (x${dNotation(calcMultiProcess(), 4, 0)})",
       "Passive SP Gain speed affected by Speed Boost"
@@ -228,6 +228,7 @@ function getQuantumUpgradeCost(idx) {
   return tempCost;
 }
 function quantumUpgradeRespec() {
+  if (game.quantumLab.lt(1) && game.qubit.lt(1)) return;
   if (typeof qRespecTimeout != "undefined") clearTimeout(qRespecTimeout);
   if (quantumUpgradeRespecConfrim > calcQuantumResetClicks()) quantumUpgradeRespecConfrim = calcQuantumResetClicks();
   quantumUpgradeRespecConfrim--;
