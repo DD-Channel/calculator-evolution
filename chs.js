@@ -83,8 +83,8 @@ var cnItems = {
     'Base +': '基础 +',
     'Bonus CPU Level': '额外的CPU等级',
     'Multiply mine power by Digits': '数位乘以矿山的力量',
-    'RP Gain': '重启点收益',
-    'RP gain': '重启点收益',
+    'RP Gain': '研究点收益',
+    'RP gain': '研究点收益',
     'Sacrifice II': '牺牲 II',
     'Savefiles': '保存文件',
     'Theme: Default': '主题: 默认',
@@ -126,7 +126,7 @@ var cnItems = {
     'More Quantum Upgrades': '更多量子升级',
     'Multiply Mine power by': '挖矿功率乘以',
     'Multiply mine power by': '挖矿功率乘以',
-    'Multiply RP gain based on itself': '根据自身乘以重启点增益',
+    'Multiply RP gain based on itself': '根据自身乘以研究点增益',
     'nvaild savefile!': '无效的存档文件！',
     'Research speed': '研究速度',
     'Research Speed': '研究速度',
@@ -135,7 +135,7 @@ var cnItems = {
     'savefile!': '存档文件！',
     'Shift Qubit production by +': '将量子位产生量改为 +',
     'Start challenge with half of goal QL (max.': '开始挑战的一半目标QL(最大。',
-    'Start Quantum run with 100 RP': '启动量子运行100重启点',
+    'Start Quantum run with 100 RP': '启动量子运行100研究点',
     'Theme: Aqua': '主题：水色',
     'Theme: Compact': '主题：紧凑',
     'Theme: Magenta (by RedMountain': '主题：洋红色（作者：RedMountain',
@@ -147,13 +147,15 @@ var cnItems = {
     "Qubit production speed": "量子位的生产速度",
     "Reach 111111(": "达到 111111(",
     'SP gain': 'SP 收益',
-    '': '',
-    '': '',
-    '': '',
-    '': '',
-    '': '',
-    '': '',
-    '': '',
+    'upgrade CPU': '升级CPU',
+    'Achievement: A Dollar': '成就：一美元',
+    'time / x IP': '时间 / x 无限点',
+    'Infinity QL': '无限 QL',
+    'Multiply mine power by Research Point': '通过研究点乘以矿山的能量',
+    'You lose': '你会损失',
+    'You lose Money, Upgrades': '你会损失金钱和升级',
+    'You lose Money, Upgrades, Digit, Number': '你会损失金钱和升级，数位，数字',
+    'You lose Money, Upgrades, Digit, Number, Base': '你会损失金钱和升级，数位，数字, 基于',
     '': '',
     '': '',
     '': '',
@@ -178,7 +180,7 @@ var cnItems = {
     '2 more?': '再来2个?',
     '2 Merger Grid Machine': '2合并网格机',
     '2 Grid Space': '2网格空间',
-    'You need to reach 11110100001000111111111111(2) to get next RP': '需要到达11110100001000111111111111(2)才能得到下一个重启点',
+    'You need to reach 11110100001000111111111111(2) to get next RP': '需要到达11110100001000111111111111(2)才能得到下一个研究点',
     'You lose Money, Upgrades, Digit, Number, Base on Reboot': '您会因重启而损失金钱，升级，数位，数字',
     'export game to clipboard': '导出存档到剪贴板',
     'file!': '文件!',
@@ -223,6 +225,15 @@ var cnItems = {
 
     //原样
     'test desc': '测试描述',
+    'RP': '研究点',
+    '': '',
+    '': '',
+    '': '',
+    '': '',
+    '': '',
+    '': '',
+    '': '',
+    '': '',
     '': '',
 
 }
@@ -267,7 +278,7 @@ var cnPrefix = {
     "Booster Challenge": "助推器挑战",
     "Next Lab:": "下个实验室:",
     "Reboot Cooldown": "重启冷却",
-    "RP Challenge (": "重启点挑战 (",
+    "RP Challenge (": "研究点挑战 (",
     "A to ": "A 到 ",
     "Digit Challenge (": "数位挑战 (",
     "Base Challenge (": "基础挑战 (",
@@ -331,6 +342,15 @@ var cnPostfix = {
     "  ": "",
     " ": "",
     "\n": "",
+    " of progress done!": "进度完成！",
+    "": "",
+    "": "",
+    "": "",
+    "": "",
+    "": "",
+    "": "",
+    "": "",
+    "": "",
 }
 
 //需排除的，正则匹配
@@ -338,6 +358,10 @@ var cnExcludeWhole = [
     /^x?\d+(\.\d+)?[A-Za-z%]{0,2}(\s.C)?\s*$/, //12.34K,23.4 °C
     /^x?\d+(\.\d+)?(e[+\-]?\d+)?\s*$/, //12.34e+4
     /^\s*$/, //纯空格
+    /^([\d\.]+)   \$$/, //纯空格
+    /^([\d\.]+)e(\d+)   \$$/, //纯空格
+    /^: ([\d\.]+)e(\d+) \/$/, //纯空格
+    /^: (\d+) \/$/, //纯空格
     /^\d+(\.\d+)?[A-Za-z]{0,2}.?\(?([+\-]?(\d+(\.\d+)?[A-Za-z]{0,2})?)?$/, //12.34M (+34.34K
     /^(\d+(\.\d+)?[A-Za-z]{0,2}\/s)?.?\(?([+\-]?\d+(\.\d+)?[A-Za-z]{0,2})?\/s\stot$/, //2.74M/s (112.4K/s tot
     /^\d+(\.\d+)?(e[+\-]?\d+)?.?\(?([+\-]?(\d+(\.\d+)?(e[+\-]?\d+)?)?)?$/, //2.177e+6 (+4.01+4
@@ -355,12 +379,14 @@ var cnExcludePostfix = [
 //原样输出的字段：(.+)
 var cnRegReplace = new Map([
     [/^You have (.+)\/(.+) Qubit \(next Qubit at Infinity sec\)$/, '你有 $1\/$2 量子位\(下一个量子位在 无限 秒\)'],
+    [/^You need to reach (.+) to get next RP$/, '您需要达到 $1 才能获得下一个研究点'],
     [/^(\d+) extra process$/, '$1 额外进程'],
+    [/^Can increase base with only (.+) digits$/, '可以增加基础只 $1 位数'],
     [/^Have (.+)\/(.+) Qubits$/, '有 $1\/$2 量子位'],
     [/^Go singularity (.+)\/(.+) times$/, '达到奇点 $1\/$2 次'],
     [/^Reach bulk (.+)\/(.+) Quantum Labs$/, '到达批量 $1\/$2 量子实验室'],
     [/^Complete (.+)\/(.+) Challenges$/, '完成 $1\/$2 挑战'],
-    [/^Have (.+)\/(.+) RP$/, '有 $1\/$2 重启点'],
+    [/^Have (.+)\/(.+) RP$/, '有 $1\/$2 研究点'],
     [/^Have (.+)\/(.+) \$$/, '有 $1\/$2 \$'],
     [/^Have (.+)\/(.+) Labs$/, '有 $1\/$2 实验室'],
     [/^Have (.+)\/(.+) Quantum Labs$/, '有 $1\/$2 量子实验室'],
