@@ -401,7 +401,7 @@ var cnPrefix = {
     "Keep ": "保留",
     "Multiply research upgrade effect by ": "将研究升级效果乘以",
     "Research ": "研究",
-    "And extend the cap of Quantum ": "并扩展量子的上限",
+    "And extend the cap of Quantum ": "并扩展上限针对量子",
     "CPU upgrade effect ": "CPU升级效果",
     "Each bought Quantum Upgrade boosts Qubit gain by ": "每购买一次量子升级就增加量子位增益",
     "Each Grey digit boosts CPU by ": "每个灰色数位提高CPU",
