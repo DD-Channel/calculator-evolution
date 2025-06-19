@@ -1,3 +1,6 @@
+* {
+  font-family: 'Roboto Mono', 'Noto Sans SC', monospace;
+}
 .shopItem > .itemName {
   font-size: 1vh !important;
   height: 2.5vh;
