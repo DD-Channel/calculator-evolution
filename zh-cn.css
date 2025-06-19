@@ -1,7 +1,13 @@
 * {
+    /* 添加 mono 中文字体 */
   font-family: 'Roboto Mono', 'Noto Sans SC', monospace;
 }
+/* 商店物品名称过大 */
 .shopItem > .itemName {
   font-size: 1vh !important;
   height: 2.5vh;
+}
+/* 调整中文按钮名间距 */
+.tabNav, .optionBtn {
+  margin-right: 0.5vw;
 }
